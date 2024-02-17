@@ -34,9 +34,32 @@ yarn start
 ```
 npm run build
 ```
-
 или
 
 ```
 yarn build
+```
+## Архитектура
+### Базовый код
+### Api
+Базовый, общий HTTP запрос. Обертка для работа с Api, реализует GET, POST.
+#### Свойства
+```
+readonly baseUrl: string;
+  //получение url в формате строки
+protected options: RequestInit;
+  //часть option, задана по умолчанию
+```
+#### Конструктор
+```
+constructor(baseUrl: string, options: RequestInit = {})
+```
+#### Методы
+```
+ protected handleResponse(response: Response): Promise<object>
+//проверяет на соединение, если все прошло хорошо возвращает json объект, иначе код ошибки.
+get(uri: string)
+//HTTP запрос GET по указанному адресу
+post(uri: string, data: object, method: ApiPostMethods = 'POST')
+//HTTP запрос POST по указанному адресу
 ```
