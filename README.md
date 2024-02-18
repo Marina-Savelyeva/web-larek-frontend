@@ -163,7 +163,7 @@ constructor(protected container: HTMLFormElement, protected events: IEvents)
 ------
 ###### Методы
 ```
-onInputChange
+protectedonInputChange(field: keyof T, value: string)
   //фиксирует изменения при вводе в поля формы
 set valid(value: boolean)
   //проверяет перед отправкой валидность
