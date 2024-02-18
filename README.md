@@ -40,7 +40,7 @@ npm run build
 yarn build
 ```
 ## Архитектура
-![UML](images/web-larek.jpg)
+![UML](src/images/web-larek.jpg)
 ### Базовый код (base папка проекта)
 ### Api
 Базовый, общий HTTP запрос. Обертка для работа с Api, реализует GET, POST.
