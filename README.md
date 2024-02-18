@@ -245,8 +245,6 @@ order: IOrder
   //данные о заказе
 preview: string | null
   //информация о товаре для предпросмотра
-formErrors: FormErrors 
-  //ошибка формы
 ```
 ------
 ###### Методы
