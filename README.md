@@ -40,6 +40,7 @@ npm run build
 yarn build
 ```
 ## Архитектура
+![UML](https://drive.google.com/file/d/1eZpPW-c_u2ukk2LMeCx8zwKe0vGyrwB4/view?usp=sharing)
 ### Базовый код (base папка проекта)
 ### Api
 Базовый, общий HTTP запрос. Обертка для работа с Api, реализует GET, POST.
