@@ -45,7 +45,7 @@ yarn build
 Базовый, общий HTTP запрос. Обертка для работа с Api, реализует GET, POST.
 
 ------
-#### Свойства
+###### Свойства
 ```
 readonly baseUrl: string;
   //получение url в формате строки
@@ -53,12 +53,12 @@ protected options: RequestInit;
   //часть option, задана по умолчанию
 ```
 ------
-#### Конструктор
+###### Конструктор
 ```
 constructor(baseUrl: string, options: RequestInit = {})
 ```
 ------
-#### Методы
+###### Методы
 ```
 protected handleResponse(response: Response): Promise<object>
   //проверяет на соединение, если все прошло хорошо возвращает json объект, иначе код ошибки.
@@ -72,12 +72,12 @@ post(uri: string, data: object, method: ApiPostMethods = 'POST')
 Класс, который используется для создания компонентов приложения, пользовательского интерфейса.
 
 ------
-#### Конструктор
+###### Конструктор
 ```
 protected constructor(protected readonly container: HTMLElement)
 ```
 ------
-#### Методы
+###### Методы
 ```
 toggleClass(element: HTMLElement, className: string, force?: boolean)
   //Переключить класс
@@ -100,18 +100,18 @@ render(data?: Partial<T>): HTMLElement
 Реализует интерфейс IEvents
 
 ------
-#### Свойства
+###### Свойства
 ```
 _events: Map<EventName, Set<Subscriber>>;
   //список, перечень событий
 ```
 ------
-#### Конструктор
+###### Конструктор
 ```
 constructor()
 ```
 ------
-#### Методы
+###### Методы
 ```
 on<T extends object>(eventName: EventName, callback: (event: T) => void)
   //Установить обработчик на событие
@@ -131,12 +131,12 @@ trigger<T extends object>(eventName: string, context?: Partial<T>)
 Класс для создания модели данных.
 
 ------
-#### Конструктор
+###### Конструктор
 ```
 constructor(data: Partial<T>, protected events: IEvents)
 ```
 ------
-#### Методы
+###### Методы
 ```
 emitChanges(event: string, payload?: object)
   //Сообщаем всем подписчикам об изменении модели
@@ -148,7 +148,7 @@ emitChanges(event: string, payload?: object)
 Наследует Component.
 
 ------
-#### Свойства
+###### Свойства
 ```
 protected _submit: HTMLButtonElement;
   //отправка
@@ -156,12 +156,12 @@ protected _errors: HTMLElement;
   //ошибки
 ```
 ------
-#### Конструктор
+###### Конструктор
 ```
 constructor(protected container: HTMLFormElement, protected events: IEvents)
 ```
 ------
-#### Методы
+###### Методы
 ```
 onInputChange
   //фиксирует изменения при вводе в поля формы
@@ -178,7 +178,7 @@ render(state: Partial<T> & IFormState)
 Наследует Component.
 
 ------
-#### Свойства
+###### Свойства
 ```
 protected _closeButton: HTMLButtonElement;
   //кнопка закрытия модального окна
@@ -186,12 +186,12 @@ protected _content: HTMLElement;
   //содержимое модального окна
 ```
 ------
-#### Конструктор
+###### Конструктор
 ```
 constructor(container: HTMLElement, protected events: IEvents)
 ```
 ------
-#### Методы
+###### Методы
 ```
 set content(value: HTMLElement)
   //установка содержимого модального окна
@@ -209,18 +209,18 @@ render(data: IModalData): HTMLElement
 Реализует интерфейс IEvents. Наследует Api.
 
 ------
-#### Свойства
+###### Свойства
 ```
 readonly cdn: string;
   //получение url в формате строки
 ```
 ------
-#### Конструктор
+###### Конструктор
 ```
 constructor(cdn: string, baseUrl: string, options?: RequestInit)
 ```
 ------
-#### Методы
+###### Методы
 ```
 getCardItem(id: string): Promise<ICard>
   //получение полной информации карточки товара
@@ -235,7 +235,7 @@ orderCards(order: IOrder): Promise<IOrderResult>
 Наследует Model.
 
 ------
-#### Свойства
+###### Свойства
 ```
 basket: ICard[];
   //список товаров в корзине
@@ -249,7 +249,7 @@ formErrors: FormErrors
   //ошибка формы
 ```
 ------
-#### Методы
+###### Методы
 ```
 clearCache() 
   //очистка данных о заказе
@@ -272,7 +272,7 @@ updateCardsBasket()
 Наследует Model.
 
 ------
-#### Свойства
+###### Свойства
 ```
 order: IOrder
   //данные о заказе
@@ -280,7 +280,7 @@ formErrors: FormErrors
   //ошибка формы
 ```
 ------
-#### Методы
+###### Методы
 ```
 setDelivery(field: keyof IDeliveryForm, value: string)
   //установка значений в поле о доставке
@@ -298,7 +298,7 @@ validationContactUser()
 Реализует интерфейс ICard<T>. Наследует Component.
 
 ------
-#### Свойства
+###### Свойства
 ```
 protected _index: HTMLElement;
   //получение url в формате строки
@@ -318,12 +318,12 @@ protected _titleButton?: string;
   //текст на кнопке
 ```
 ------
-#### Конструктор
+###### Конструктор
 ```
 constructor(container: HTMLElement, actions?: ICardActions)
 ```
 ------
-#### Методы
+###### Методы
 ```
 set id(value: string)
   //установка id
@@ -348,7 +348,7 @@ buttonVisibility(value:number | null)
 Наследует Component.
 
 ------
-#### Свойства
+###### Свойства
 ```
 protected _counter: HTMLElement;
   //счетчик товаров в корзине
@@ -361,12 +361,12 @@ protected _basket: HTMLElement;
 
 ```
 ------
-#### Конструктор
+###### Конструктор
 ```
 constructor(container: HTMLElement, protected events: IEvents) 
 ```
 ------
-#### Методы
+###### Методы
 ```
 set counter(value: number)
   //установка счетчика товаров, добавленных в корзину
@@ -382,7 +382,7 @@ set locked(value: boolean)
 Наследует Component.
 
 ------
-#### Свойства
+###### Свойства
 ```
 protected _list: HTMLElement;
   //перечень товаров в корзине
@@ -392,12 +392,12 @@ protected _button: HTMLElement;
   //кнопка оформить
 ```
 ------
-#### Конструктор
+###### Конструктор
 ```
 constructor(container: HTMLElement, protected events: EventEmitter)
 ```
 ------
-#### Методы
+###### Методы
 ```
 set items(items: HTMLElement[])
   //установка товаров
@@ -413,7 +413,7 @@ set total(total: number)
 Наследует Form.
 
 ------
-#### Свойства
+###### Свойства
 ```
 protected _buttonOnline: HTMLElement;
   //кнопка оплаты онлайн
@@ -423,12 +423,12 @@ protected _addressField: HTMLElement;
   //поле ввода адреса
 ```
 ------
-#### Конструктор
+###### Конструктор
 ```
 constructor(container: HTMLFormElement, events: IEvents)
 ```
 ------
-#### Методы
+###### Методы
 ```
 set address(value: string)
   //установка адреса
@@ -441,7 +441,7 @@ activeButton(target: HTMLElement)
 Наследует Form.
 
 ------
-#### Свойства
+###### Свойства
 ```
 protected _emailField: HTMLElement;
   //поле ввода email
@@ -449,12 +449,12 @@ protected _phoneField: HTMLElement;
   //поле ввода номера телефона
 ```
 ------
-#### Конструктор
+###### Конструктор
 ```
 constructor(container: HTMLFormElement, events: IEvents)
 ```
 ------
-#### Методы
+###### Методы
 ```
 set email(value: string)
   //установка email
@@ -467,7 +467,7 @@ set phone(value: string)
 Наследует Component.
 
 ------
-#### Свойства
+###### Свойства
 ```
 protected _close: HTMLElement;
   //кнопка закрытия модельного окна
@@ -475,12 +475,12 @@ protected _purchasePrice: HTMLElement;
   //Поле вывода "Списано ... синапсов"
 ```
 ------
-#### Конструктор
+###### Конструктор
 ```
 constructor(container: HTMLElement, actions: ISuccessActions)
 ```
 ------
-#### Методы
+###### Методы
 ```
 set purchasePrice(value: string)
   //установка стоимости покупки
