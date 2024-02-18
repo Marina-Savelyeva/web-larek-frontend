@@ -253,13 +253,13 @@ clearCache()
   //очистка данных о заказе
 clearBasket()
   //очистка корзины
-setCatalog(items: ICatalog[])
+setCatalog(items: ICard[])
   //работа с каталогом, фиксация изменений
 setPreview(item: ICard)
   //для предпросмотра
-addCardBasket(items: ICatalog)
+addCardBasket(items: ICard)
   //добавить товар в корзину
-removeCardBasket(items: ICatalog)
+removeCardBasket(items: ICard)
   //удалить товар из корзины
 updateCardsBasket()
   //обновление корзины
