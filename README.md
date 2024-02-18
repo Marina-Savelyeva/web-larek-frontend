@@ -142,6 +142,67 @@ emitChanges(event: string, payload?: object)
   //Сообщаем всем подписчикам об изменении модели
 ```
 ------
+### Общие компоненты (common папка проекта)
+### Form
+Класс, который контролирует формы.
+Наследует Component.
+
+------
+#### Свойства
+```
+protected _submit: HTMLButtonElement;
+  //отправка
+protected _errors: HTMLElement;
+  //ошибки
+```
+------
+#### Конструктор
+```
+constructor(protected container: HTMLFormElement, protected events: IEvents)
+```
+------
+#### Методы
+```
+onInputChange
+  //фиксирует изменения при вводе в поля формы
+set valid(value: boolean)
+  //проверяет перед отправкой валидность
+set errors(value: string)
+  //показывает текст ошибки при заполнении формы
+render(state: Partial<T> & IFormState)
+  //рендерит форму
+```
+------
+### Modal
+Класс для отображения модального окна.
+Наследует Component.
+
+------
+#### Свойства
+```
+protected _closeButton: HTMLButtonElement;
+  //кнопка закрытия модального окна
+protected _content: HTMLElement;
+  //содержимое модального окна
+```
+------
+#### Конструктор
+```
+constructor(container: HTMLElement, protected events: IEvents)
+```
+------
+#### Методы
+```
+set content(value: HTMLElement)
+  //установка содержимого модального окна
+open()
+  //открытие модального окна
+close()
+  //открытие модального окна
+render(data: IModalData): HTMLElement
+  //рендерит модальное окно
+```
+------
 ### Компоненты модели данных (бизнес-логика)
 ### WebLarekAPI
 Обертка для работа с Api, реализует получение информации о всех товарах, конкретном товаре, оформление покупки.
@@ -167,6 +228,68 @@ getCardList(): Promise<ICard[]>
   //получение списка товаров-карточек с сервера
 orderCards(order: IOrder): Promise<IOrderResult>
   //отправка информации на сервер
+```
+------
+### AppState
+Для управления магазином, включает в себы: корзину, каталог. 
+Наследует Model.
+
+------
+#### Свойства
+```
+basket: ICard[];
+  //список товаров в корзине
+catalog: ICard[];
+  //список товаров в магазине
+order: IOrder
+  //данные о заказе
+preview: string | null
+  //информация о товаре для предпросмотра
+formErrors: FormErrors 
+  //ошибка формы
+```
+------
+#### Методы
+```
+clearCache() 
+  //очистка данных о заказе
+clearBasket()
+  //очистка корзины
+setCatalog(items: ICatalog[])
+  //работа с каталогом, фиксация изменений
+setPreview(item: ICard)
+  //для предпросмотра
+addCardBasket(items: ICatalog)
+  //добавить товар в корзину
+removeCardBasket(items: ICatalog)
+  //удалить товар из корзины
+updateCardsBasket()
+  //обновление корзины
+```
+------
+### AppForm
+Для управления информаций о заказе (ошибки и формы). 
+Наследует Model.
+
+------
+#### Свойства
+```
+order: IOrder
+  //данные о заказе
+formErrors: FormErrors 
+  //ошибка формы
+```
+------
+#### Методы
+```
+setDelivery(field: keyof IDeliveryForm, value: string)
+  //установка значений в поле о доставке
+validationDelivery()
+  //проверка на ошибки значений в поле о доставке
+setContactUser(field: keyof IContactForm, value: string)
+  //установка значений в полях контактных данных покупателя
+validationContactUser()
+  //проверка значений в полях контактных данных покупателя
 ```
 ------
 ### Отображение
@@ -218,5 +341,148 @@ set titleButton(value: string)
   //установка надписи на кнопке
 buttonVisibility(value:number | null)
   //если цена не указана - товар бесценен, кнопка неактивна (заблокирована)
+```
+------
+### Page
+Управляет интерфейсом магазина.
+Наследует Component.
+
+------
+#### Свойства
+```
+protected _counter: HTMLElement;
+  //счетчик товаров в корзине
+protected _catalog: HTMLElement;
+  //каталог товаров
+protected _wrapper: HTMLElement;
+  //обертка
+protected _basket: HTMLElement;
+  //корзина
+
+```
+------
+#### Конструктор
+```
+constructor(container: HTMLElement, protected events: IEvents) 
+```
+------
+#### Методы
+```
+set counter(value: number)
+  //установка счетчика товаров, добавленных в корзину
+set catalog(items: HTMLElement[])
+  //установка каталога
+set locked(value: boolean)
+  //установка блокировки страницы
+
+```
+------
+### Basket
+Корзина.
+Наследует Component.
+
+------
+#### Свойства
+```
+protected _list: HTMLElement;
+  //перечень товаров в корзине
+protected _total: HTMLElement;
+  //общая стоимость
+protected _button: HTMLElement;
+  //кнопка оформить
+```
+------
+#### Конструктор
+```
+constructor(container: HTMLElement, protected events: EventEmitter)
+```
+------
+#### Методы
+```
+set items(items: HTMLElement[])
+  //установка товаров
+set selected(items: string[])
+  //установка разрешения у кнопки в зависимости от количества товаров
+set total(total: number)
+  //установка общей стоимости
+
+```
+------
+### Delivery
+Форма доставки.
+Наследует Form.
+
+------
+#### Свойства
+```
+protected _buttonOnline: HTMLElement;
+  //кнопка оплаты онлайн
+protected _buttonMoney: HTMLElement;
+  //кнопка оплаты наличными
+protected _addressField: HTMLElement;
+  //поле ввода адреса
+```
+------
+#### Конструктор
+```
+constructor(container: HTMLFormElement, events: IEvents)
+```
+------
+#### Методы
+```
+set address(value: string)
+  //установка адреса
+activeButton(target: HTMLElement)
+  //актиное состояние у выбранного способа оплаты
+```
+------
+### Contact
+Форма контактных данных.
+Наследует Form.
+
+------
+#### Свойства
+```
+protected _emailField: HTMLElement;
+  //поле ввода email
+protected _phoneField: HTMLElement;
+  //поле ввода номера телефона
+```
+------
+#### Конструктор
+```
+constructor(container: HTMLFormElement, events: IEvents)
+```
+------
+#### Методы
+```
+set email(value: string)
+  //установка email
+set phone(value: string)
+  //установка почты
+```
+------
+### Success
+Отображение успешной покупки, оформления заказа.
+Наследует Component.
+
+------
+#### Свойства
+```
+protected _close: HTMLElement;
+  //кнопка закрытия модельного окна
+protected _purchasePrice: HTMLElement;
+  //Поле вывода "Списано ... синапсов"
+```
+------
+#### Конструктор
+```
+constructor(container: HTMLElement, actions: ISuccessActions)
+```
+------
+#### Методы
+```
+set purchasePrice(value: string)
+  //установка стоимости покупки
 ```
 ------
