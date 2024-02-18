@@ -306,10 +306,10 @@ protected _image?: HTMLImageElement;
   //изображение товара
 protected _description?: HTMLElement;
   //описание продукта
-protected _button?: HTMLButtonElement;
+protected _button: HTMLButtonElement;
   //кнопка для дейсвия на карточке товара
 protected _category?: HTMLImageElement;
-  //изображение товара
+  //категория товара
 protected _price?: HTMLImageElement;
   //цена
 protected _titleButton?: string;
