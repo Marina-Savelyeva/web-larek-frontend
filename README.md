@@ -163,8 +163,6 @@ constructor(protected container: HTMLFormElement, protected events: IEvents)
 ------
 ###### Методы
 ```
-protected onInputChange(field: keyof T, value: string)
-  //фиксирует изменения при вводе в поля формы
 set valid(value: boolean)
   //проверяет перед отправкой валидность
 set errors(value: string)
@@ -241,7 +239,7 @@ basket: ICard[];
   //список товаров в корзине
 catalog: ICard[];
   //список товаров в магазине
-order: IOrder
+order: IOrderBasket
   //данные о заказе
 preview: string | null
   //информация о товаре для предпросмотра
@@ -263,6 +261,9 @@ removeCardBasket(items: ICard)
   //удалить товар из корзины
 updateCardsBasket()
   //обновление состояния корзины, обновив представление. (emitChanges для изменения счетчика в корзине и состава корзины)
+  //сделано, чтобы не было дублей в коде 
+getTotal()
+  //расчет финальной стоимости
 ```
 ------
 ### AppForm
@@ -272,21 +273,23 @@ updateCardsBasket()
 ------
 ###### Свойства
 ```
-order: IOrder
-  //данные о заказе
+orderCustomer: IOrderCustomer
+  //данные о доставке и покупателе 
 formErrors: FormErrors 
   //ошибка формы
 ```
 ------
 ###### Методы
 ```
+clearCache()
+  //очистка данных о заказе
 setDelivery(field: keyof IDeliveryForm, value: string)
   //хранение значений в поле о доставке
 validationDelivery()
   //проверка на ошибки значений в поле о доставке
-setContactUser(field: keyof IContactForm, value: string)
+setContact(field: keyof IContactForm, value: string)
   //хранение значений в полях контактных данных покупателя
-validationContactUser()
+validationContact()
   //проверка значений в полях контактных данных покупателя
 ```
 ------
@@ -299,20 +302,20 @@ validationContactUser()
 ###### Свойства
 ```
 protected _index: HTMLElement;
-  //получение url в формате строки
+  //индекс товара
 protected _title: HTMLElement;
   //наименование продукта
-protected _image?: HTMLImageElement;
+protected _image: HTMLImageElement;
   //изображение товара
-protected _description?: HTMLElement;
+protected _description: HTMLElement;
   //описание продукта
 protected _button: HTMLButtonElement;
   //кнопка для дейсвия на карточке товара
-protected _category?: HTMLImageElement;
+protected _category: HTMLImageElement;
   //категория товара
-protected _price?: HTMLImageElement;
+protected _price: HTMLImageElement;
   //цена
-protected _titleButton?: string;
+protected _titleButton: string;
   //текст на кнопке
 ```
 ------
@@ -327,6 +330,10 @@ set id(value: string)
   //установка id
 get id(): string
   //получение id
+set index(value: string)
+  //установка индекса
+get index(): string
+  //получение индекса
 set title(value: string)
   //установка название товара
 get title(): string
@@ -335,10 +342,18 @@ set image(value: string)
   //установка картинки товара
 set description(value: string | string[])
   //установка описание товара
+set category(value: string)
+  //установка категории товара
+get category(): string
+  //получение категории товара
 set titleButton(value: string)
   //установка надписи на кнопке
 buttonVisibility(value:number | null)
   //если цена не указана - товар бесценен, кнопка неактивна (заблокирована)
+set price(value: number| null)
+  //установка цены
+get price(): number
+  //получение цены
 ```
 ------
 ### Page
@@ -413,11 +428,11 @@ set total(total: number)
 ------
 ###### Свойства
 ```
-protected _buttonOnline: HTMLElement;
+protected _buttonOnline: HTMLButtonElement;
   //кнопка оплаты онлайн
-protected _buttonMoney: HTMLElement;
+protected _buttonOffline: HTMLButtonElement;
   //кнопка оплаты наличными
-protected _addressField: HTMLElement;
+protected _address: HTMLInputElement;
   //поле ввода адреса
 ```
 ------
@@ -430,8 +445,6 @@ constructor(container: HTMLFormElement, events: IEvents)
 ```
 set address(value: string)
   //установка адреса
-activeButton(target: HTMLElement)
-  //актиное состояние у выбранного способа оплаты
 ```
 ------
 ### Contact
@@ -441,9 +454,9 @@ activeButton(target: HTMLElement)
 ------
 ###### Свойства
 ```
-protected _emailField: HTMLElement;
+protected _email: HTMLElement;
   //поле ввода email
-protected _phoneField: HTMLElement;
+protected _phone: HTMLElement;
   //поле ввода номера телефона
 ```
 ------
@@ -480,7 +493,7 @@ constructor(container: HTMLElement, actions: ISuccessActions)
 ------
 ###### Методы
 ```
-set purchasePrice(value: string)
+set total(value: string)
   //установка стоимости покупки
 ```
 ------
@@ -496,27 +509,29 @@ larek:changed //изменения состава каталога
 preview:changed //изменения детального просмотра окна
 
 card: select //выбор карточки товара
+card: selected //действия после открытия карточки в виде превью
 card: add //добавление карточки товара в корзину
-card: delete //удаление карточки товара из корзины
+card: remove //удаление карточки товара из корзины, находясь в превью
+card: delete //удаление карточки товара из корзины, находясь в корзине
 
 modal: open //открытие модального окна
 modal: close //закрытие модального окна
 
 basket: open //открытие корзины
 basket:changed //изменение состава корзины
-basketCounter: changer //изменение счетчика корзины
+counter:changed //изменение счетчика корзины
 
 delivery: open //открытие формы доставки
-delivery:changed //изменение формы доставки, любого поля
+delivery:change //изменение формы доставки, любого поля
 delivery:ready //готовность формы доставки к отправке
 delivery: submit //отправка формы доставки
 
-payment: changed //изменение способа оплаты
-
 contact: open //открытие формы личных данных
-contact:changed //изменение формы личных данных, любого поля
+contact:change //изменение формы личных данных, любого поля
 contact:ready //готовность формы личных данных
 contact: submit //отправка формы личных данных
 
-formErrors:chang //изменение списка ошибок
+formErrors:change //изменение списка ошибок
+
+success:open //открытие окна успешной покупки
 ```
