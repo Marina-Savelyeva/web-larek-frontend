@@ -12,9 +12,9 @@ export abstract class Component<T> {
 
   // Установить текстовое содержимое
   protected setText(element: HTMLElement, value: unknown) {
-      if (element) {
-          element.textContent = String(value);
-      }
+    if (element) {
+      element.textContent = String(value);
+    }
   }
 
   // Сменить статус блокировки

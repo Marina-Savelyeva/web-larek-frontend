@@ -20,6 +20,8 @@ export interface IEvents {
 }
 
 
+export type IOrder = IDelivery & IContact & IOrderBasket;
+
 export interface IWebLarekAPI {
   getCardItem:(id: string) => Promise<ICard>;//получение полной информации карточки товара
   getCardList:() => Promise<ICard[]>;//получение списка товаров-карточек с сервера
@@ -30,17 +32,15 @@ export interface ICard{
   id: string;
   title: string;
   image: string;
-  description?: string;
-  category?: string;
-  price?: HTMLImageElement;
+  description: string;
+  category: string;
+  price: number | null;
+  index?: string;
+  titleButton?: string;
 }
 
-export interface IOrder{
+export interface IOrderBasket{
   total: number;
-  payment: string;
-  address: string;
-  email: string;
-  phone: string;
   items: string[];
 }
 
@@ -49,18 +49,19 @@ export interface IOrderResult {
   total: number;
 }
 
+export type IOrderCustomer = IDelivery & IContact ;
 
 export interface IAppState {
   catalog: ICard[];
   basket: ICard[];
   preview: string | null;
-  order: IOrder | null;
+  order: IOrderBasket | null;
 }
 
-export type FormErrors = Partial<Record<keyof IOrder, string>>;
+export type FormErrors = Partial<Record<keyof IOrderCustomer, string>>;
 
 export interface IAppForm {
-  order: IOrder;
+  IOrderCustomer: IOrderCustomer;
   formErrors: FormErrors;
 }
 
@@ -108,4 +109,8 @@ export interface ISuccess {
 
 export interface ISuccessActions {
   onClick: () => void;
+}
+
+export type CatalogChangeEvent ={
+  catalog: ICard[];
 }
